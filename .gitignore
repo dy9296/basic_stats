@@ -1,0 +1,6 @@
+# Python Tools for Visual Studio Code
+__pycache__
+*.pyc
+
+# Virtual environment
+venv
