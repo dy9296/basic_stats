@@ -1,7 +1,7 @@
 import numpy as np
 import sympy as sym
 
-# mean, mode, var, cdf, rv
+# mean, mode, var, cdf
 
 class normal():
     def __init__(self, mean, variance):
@@ -53,6 +53,22 @@ class gamma():
         y = (1 / self.function()) * (self.var_b ** self.var_a) * (var_x ** (self.var_a - 1)) * np.exp(-self.var_b * var_x)
         
         return y.astype(float)
+    
+    def cdf(self, var_x):
+        # variable t
+        var_t = sym.symbols('t')
+        
+        ## function and integral
+        # pdf function f(t)
+        yt = (1 / self.function()) * (self.var_b ** self.var_a) * (var_t ** (self.var_a - 1)) * sym.exp(-self.var_b * var_t)
+        
+        # cdf function F(t)
+        cumm_yt = sym.integrate(yt, var_t)
+        
+        F_b = np.array([sym.limit(cumm_yt, var_t, x) for x in var_x])
+        F_a = sym.limit(cumm_yt, var_t, 0)
+
+        return (F_b - F_a).astype(float)
 
 class beta():
     def __init__(self, var_a, var_b):
