@@ -12,7 +12,15 @@ class normal():
         y = (1 / np.sqrt(2 * np.pi * self.variance)) * np.exp(- (var_x - self.mean) ** 2 / (2 * self.variance))
 
         return y.astype(float)
-    
+
+class bernoulli():
+    def __init__(self, mu):
+        self.mu = mu
+
+    def pdf(self, var_x):
+        y = self.mu ** var_x * (1 - self.mu) ** (1 - var_x)
+
+        return y.astype(float)
 
 class gamma():
     def __init__(self, var_a, var_b = 1):
