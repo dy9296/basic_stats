@@ -1,6 +1,19 @@
 import numpy as np
 import sympy as sym
 
+# mean, mode, var, cdf, rv
+
+class normal():
+    def __init__(self, mean, variance):
+        self.mean = mean
+        self.variance = variance
+
+    def pdf(self, var_x):
+        y = (1 / np.sqrt(2 * np.pi * self.variance)) * np.exp(- (var_x - self.mean) ** 2 / (2 * self.variance))
+
+        return y.astype(float)
+    
+
 class gamma():
     def __init__(self, var_a, var_b = 1):
         self.var_a = var_a
@@ -34,7 +47,6 @@ class gamma():
         return y.astype(float)
 
 class beta():
-    # mean, mode, var
     def __init__(self, var_a, var_b):
         self.var_a = var_a
         self.var_b = var_b
