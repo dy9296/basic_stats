@@ -9,9 +9,25 @@ class normal():
         self.variance = variance
 
     def pdf(self, var_x):
-        y = (1 / np.sqrt(2 * np.pi * self.variance)) * np.exp(- (var_x - self.mean) ** 2 / (2 * self.variance))
+        norm_x = (var_x - self.mean) / np.sqrt(2 * self.variance)
+        y = (1 / np.sqrt(2 * np.pi * self.variance)) * np.exp(- norm_x ** 2)
 
         return y.astype(float)
+
+    def cdf(self, var_x):
+        # variable t
+        var_t = sym.symbols('t')
+        
+        # function and integral
+        erf_f_t = (2 / sym.sqrt(sym.pi)) * sym.exp(- var_t ** 2)
+        erf_F_t = sym.integrate(erf_f_t, var_t) # erf
+
+        norm_x = (var_x - self.mean)/np.sqrt(2 * self.variance)
+
+        F_b = np.array([(1 + sym.limit(erf_F_t, var_t, x))/2 for x in norm_x])
+        F_a = (1 + sym.limit(erf_F_t, var_t, -sym.oo))/2
+
+        return (F_b - F_a).astype(float)
 
 class bernoulli():
     def __init__(self, mu):
@@ -85,6 +101,3 @@ class beta():
         y = (1 / self.function()) * var_x ** (self.var_a - 1) * (1 - var_x) ** (self.var_b - 1)
         
         return y.astype(float)
-
-
-# 디리클레 분포
